@@ -43,4 +43,10 @@ Run Q-learning on Taxi:
 python taxi_qlearning.py
 ```
 
+Run a random Cartpole agent:
+
+```bash
+
+python cartpole_random.py
+
 ---
