@@ -1,6 +1,7 @@
 import gymnasium as gym
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 
 env = gym.make("Taxi-v4")
 
@@ -16,6 +17,7 @@ epsilon_decay = 0.9995
 min_epsilon = 0.05
 
 episodes = 5000
+episode_rewards = []
 
 for episode in range(episodes):
     state, info = env.reset()
@@ -40,7 +42,8 @@ for episode in range(episodes):
 
         state = next_state
         total_reward += reward
-
+        
+    episode_rewards.append(total_reward)
     epsilon = max(min_epsilon, epsilon * epsilon_decay)
 
     if (episode + 1) % 500 == 0:
@@ -75,6 +78,13 @@ print("\nEvaluation Results:")
 print("Average reward:", np.mean(total_test_rewards))
 print("Best reward:", np.max(total_test_rewards))
 print("Worst reward:", np.min(total_test_rewards))
-print("Average steps:", np.mean(total_test_steps))    
+print("Average steps:", np.mean(total_test_steps))  
+
+plt.plot(episode_rewards)
+plt.xlabel("Episode")
+plt.ylabel("Reward")
+plt.title("Taxi Q-Learning Training Rewards")
+plt.savefig("graphs/taxi_qlearning_rewards.png")
+plt.close()
 
 env.close()
